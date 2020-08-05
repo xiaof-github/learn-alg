@@ -24,41 +24,39 @@ func initLink() *LinkNode {
 
 // 访问缓存时，更新其他key的时间
 func (this *LRUCache)lruIncOtherKeyTime(key int) {
-    i := 0    
-    // for i;i < this.cap; i++ {
-    //     if (this.hot.key != key && this.hot.exist){
-    //         this.hot.time++
-    //     }else if (this.hot.key == key){
-    //         this.hot.time = 0
-    //     }
-    // }
+    var n *LinkNode    
+    for n = this.root.Next; n!=nil; n = n.Next {
+        if (n.Key == key){
+            n.Time = 0            
+            continue
+        }
+        n.Time++
+    }
 }
 // 删除节点
 func deleteLinkNode(root *LinkNode, node *LinkNode) {
     var n *LinkNode
     last := root
-    for n = root->Next; n!=null; last = n, n = n.Next {
+    for n = root.Next; n!=nil; last, n =n, n.Next {
         if (n == node){
             last.Next = n.Next
             n.Next = nil
             n = nil
-            break;
+            root.Key--
+            break
         }
     }
 }
 
-// 加入新节点，并更新老节点时间值
+// 加入新节点
 func insertLinkNodeUpdate(root *LinkNode, key int) {
     n := root
     node := new(LinkNode)
     node.Key = key
-    for n = root.Next;n!=null;n = n.Next {
-        if (n != root){
-            n.Time++
-        }        
-        if (n.Next == null){
+    for n = root;n!=nil;n = n.Next {                 
+        if (n.Next == nil){
             n.Next = node
-            break;
+            break
         }
     }
     root.Key++
@@ -68,8 +66,8 @@ func insertLinkNodeUpdate(root *LinkNode, key int) {
 func findBigLinkNode(root *LinkNode) *LinkNode {
     n := root
     t := root.Next
-    for n = root.Next;n!=null;n = n.Next {
-        if (t.Val < n.Val){
+    for n = root.Next;n!=nil;n = n.Next {
+        if (t.Time < n.Time){
             t = n
         }
     }
@@ -77,7 +75,7 @@ func findBigLinkNode(root *LinkNode) *LinkNode {
 }
 
 
-func Constructor(capacity int) LRUCache {
+func Constructor(capacity int) *LRUCache {
     lru := new(LRUCache)
     lru.cap =  capacity
     lru.cache = make(map[int]int, capacity)
@@ -87,38 +85,46 @@ func Constructor(capacity int) LRUCache {
 
 func (this *LRUCache) Get(key int) int {
 
-    val, ok := map[key]
+    val, ok := this.cache[key]
     if (ok) {
-        fmt.Printf("key %d exist", key)
+        fmt.Printf("key %d exist\n", key)
         this.lruIncOtherKeyTime(key)
         return val
     }
 
-    fmt.Printf("key %d not exist", key)
+    fmt.Printf("key %d not exist\n", key)
     return -1
 }
 
 func (this *LRUCache) Put(key int, value int) {
-    if(cur < cap){
-        map[key] = value        
+    if(this.cur < this.cap){
+        this.cache[key] = value        
         this.cur++
-        insertLinkNode(this.root, key)
+        insertLinkNodeUpdate(this.root, key)
     }else{        
-        fmt.Println("map before deletion", this.map)
+        fmt.Println("map before deletion", this.cache)
         big := findBigLinkNode(this.root)
-        delete(this.cache, big.key)
+        fmt.Printf("big: %+v", big)
+        delete(this.cache, big.Key)
         deleteLinkNode(this.root, big)
-        insertLinkNodeUpdate(root, key)        
-        fmt.Println("map after deletion", this.map)
+        insertLinkNodeUpdate(this.root, key)        
+        this.cache[key] = value
+        fmt.Println("map after deletion", this.cache)
     }
-    lruIncOtherKeyTime(key)
+    this.lruIncOtherKeyTime(key)
 }
 
-func main() {
-    nums1 := []int{23,2,2,1,1,1,1,1,21,230,3,3,91}
-    nums2 := []int{1,2,3,4,5,91,21,230,3,23,3,3,5}
+func main() {    
+    cache := Constructor(2)
+    cache.Put(3, 10)
+    cache.Put(1, 5)
+    cache.Get(1)
+    cache.Put(7, 7)    
+    cache.Put(8, 8)
+    cache.Get(3)
+    cache.Put(9, 9)
+    cache.Get(8)
 
-    a := intersect(nums1, nums2)
-    fmt.Printf("a:%+v", a)
+    
 
 }
