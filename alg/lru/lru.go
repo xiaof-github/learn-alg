@@ -1,8 +1,6 @@
 package main
 
-import "fmt"
-
-// 实现LRU缓存，最近最少使用缓存
+// 单链表+哈希实现LRU缓存，最近最少使用缓存
 
 type LinkNode struct {
     Time int
@@ -49,7 +47,7 @@ func deleteLinkNode(root *LinkNode, node *LinkNode) {
 }
 
 // 加入新节点
-func insertLinkNodeUpdate(root *LinkNode, key int) {
+func insertLinkNode(root *LinkNode, key int) {
     n := root
     node := new(LinkNode)
     node.Key = key
@@ -75,41 +73,50 @@ func findBigLinkNode(root *LinkNode) *LinkNode {
 }
 
 
-func Constructor(capacity int) *LRUCache {
+func Constructor(capacity int) LRUCache {
     lru := new(LRUCache)
     lru.cap =  capacity
     lru.cache = make(map[int]int, capacity)
     lru.root = initLink()
-    return lru
+    return *lru
 }
 
 func (this *LRUCache) Get(key int) int {
 
     val, ok := this.cache[key]
     if (ok) {
-        fmt.Printf("key %d exist\n", key)
+        // fmt.Printf("[Get]key %d exist\n", key)
         this.lruIncOtherKeyTime(key)
         return val
     }
 
-    fmt.Printf("key %d not exist\n", key)
+    // fmt.Printf("[Get]key %d not exist\n", key)
     return -1
 }
 
 func (this *LRUCache) Put(key int, value int) {
+
+    _, ok := this.cache[key]
+    if (ok) {
+        // fmt.Printf("[Put]key %d exist, value: %d\n", key, val)
+        this.cache[key] = value
+        this.lruIncOtherKeyTime(key)
+        return
+    }
+
     if(this.cur < this.cap){
-        this.cache[key] = value        
+        this.cache[key] = value    
         this.cur++
-        insertLinkNodeUpdate(this.root, key)
+        insertLinkNode(this.root, key)
     }else{        
-        fmt.Println("map before deletion", this.cache)
+        // fmt.Println("[Put]map before deletion", this.cache)
         big := findBigLinkNode(this.root)
-        fmt.Printf("big: %+v", big)
+        // fmt.Printf("[Put]big: %+v\n", big)
         delete(this.cache, big.Key)
         deleteLinkNode(this.root, big)
-        insertLinkNodeUpdate(this.root, key)        
+        insertLinkNode(this.root, key)
         this.cache[key] = value
-        fmt.Println("map after deletion", this.cache)
+        // fmt.Println("[Put]map after deletion", this.cache)
     }
     this.lruIncOtherKeyTime(key)
 }
@@ -119,11 +126,12 @@ func main() {
     cache.Put(3, 10)
     cache.Put(1, 5)
     cache.Get(1)
-    cache.Put(7, 7)    
-    cache.Put(8, 8)
+    // cache.Put(7, 7)    
+    // cache.Put(8, 8)
     cache.Get(3)
-    cache.Put(9, 9)
-    cache.Get(8)
+    cache.Put(1, 9)
+    cache.Put(7, 7)
+    cache.Get(3)
 
     
 
