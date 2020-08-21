@@ -10,9 +10,7 @@ type TreeNode struct {
 	Right *TreeNode
 }
 
-var (
-	r = TreeNode{0, nil, nil}
-)
+var r *TreeNode
 
 // 求二叉树层序遍历
 func main() {
@@ -20,6 +18,7 @@ func main() {
 	// nums2 := []int{1,2,3,4,5,91,21,230,3,23,3,3,5}
 
 	a := 1
+	r = new(TreeNode)
 	insertNode(r, 1)
 
 }
@@ -34,16 +33,28 @@ func insertNode(root *TreeNode, Val int) {
 
 	NodeS[0] = root
 	done := false
+	i:=0	
+
 	for (!done) {
-		for k, v = range NodeS {
-			if (v == nil) {
-				NodeS[k] = new(TreeNode)
-				NodeS[k].Val = Val
-				done = true
-				break			
-			}
+		j := 1
+		for k, v := range NodeS{						
 			NodeS1 = append(NodeS1, k.Left, k.Right)
 		}
+		k := 0 
+		j = j*2
+		for ;k<j;k++ {
+			if(NodeS1[k] == nil) {
+				if (k % 2 == 1) {
+					NodeS[k/2].Right = new(TreeNode)
+					NodeS[k/2].Right.Val = Val
+				} else {
+					NodeS[k/2].Left = new(TreeNode)
+					NodeS[k/2].Left.Val = Val
+				}
+				done = true
+				break
+			}
+		}		
 		copy(NodeS1, NodeS)
 		NodeS1 = NodeS1[:0]
 		fmt.Println("NodeS1, len: cap: ", len(NodeS1), cap(NodeS1))
