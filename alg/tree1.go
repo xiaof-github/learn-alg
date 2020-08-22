@@ -19,29 +19,31 @@ func main() {
 
 	a := 1
 	r = new(TreeNode)
-	insertNode(r, 1)
+	r.Val = -1
+	insertNode(r, a)
+	insertNode(r, 2)
+	insertNode(r, 3)
+	insertNode(r, 4)
 
 }
 
 func insertNode(root *TreeNode, Val int) {
-	NodeS := make([]*TreeNode, 10000)
-	NodeS1 := make([]*TreeNode, 10000)
-	if (root.Left == nil && root.Right == nil) {
+	NodeS := make([]*TreeNode, 100)
+	NodeS1 := make([]*TreeNode, 100)
+	if (root.Val == -1) {
 		root.Val = Val
 		return;
 	}
 
 	NodeS[0] = root
 	done := false
-	i:=0	
+	j := 1
 
-	for (!done) {
-		j := 1
-		for k, v := range NodeS{						
-			NodeS1 = append(NodeS1, k.Left, k.Right)
+	for (!done) {		
+		for _, v := range NodeS{
+			NodeS1 = append(NodeS1, v.Left, v.Right)
 		}
-		k := 0 
-		j = j*2
+		k := 0 		
 		for ;k<j;k++ {
 			if(NodeS1[k] == nil) {
 				if (k % 2 == 1) {
@@ -51,10 +53,12 @@ func insertNode(root *TreeNode, Val int) {
 					NodeS[k/2].Left = new(TreeNode)
 					NodeS[k/2].Left.Val = Val
 				}
+				fmt.Println("NodeS1, len:%d k:%d ", len(NodeS1), k)
 				done = true
-				break
+				return
 			}
 		}		
+		j = j*2
 		copy(NodeS1, NodeS)
 		NodeS1 = NodeS1[:0]
 		fmt.Println("NodeS1, len: cap: ", len(NodeS1), cap(NodeS1))
