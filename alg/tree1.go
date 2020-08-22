@@ -26,8 +26,8 @@ func main() {
 func insertNode(root *TreeNode, Val int) {
 	NodeS := make([]*TreeNode, 10000)
 	NodeS1 := make([]*TreeNode, 10000)
-	if (TreeNode.Left == nil && TreeNode.Right == nil) {
-		TreeNode.Val = Val
+	if (root.Left == nil && root.Right == nil) {
+		root.Val = Val
 		return;
 	}
 
