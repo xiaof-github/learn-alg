@@ -33,11 +33,13 @@ func main() {
 	insertNode(r, 4)
 	insertNode(r, 4)
 
+	rst := levelOrder(r)
+	fmt.Printf("rst: %+v\n", rst)
 }
 // 以满二叉树方式插入节点
 func insertNode(root *TreeNode, Val int) {
 	NodeS := make([]*TreeNode, 1, 100)
-	NodeS1 := make([]*TreeNode, 0, 100)
+	NodeS1 := make([]*TreeNode, 0, 200)
 	if (root.Val == -1) {
 		root.Val = Val
 		return;
@@ -77,7 +79,50 @@ func insertNode(root *TreeNode, Val int) {
 }
 
 
-
+// 层序遍历
 func levelOrder(root *TreeNode) [][]int {
-	return [][]int{{0},}
+	NodeS := make([]*TreeNode, 1, 100)
+	NodeS1 := make([]*TreeNode, 0, 100)
+	rst := make([][]int, 100, 100)
+	for i:= 0; i< 100; i++ {
+		rst[i] = make([]int, 100)
+	}
+
+	if (root.Val == -1) {
+		return rst
+	}
+
+	NodeS[0] = root
+	done := false
+	i := 0
+	j := 0
+	for (!done){
+		for _, v := range NodeS {
+
+			if (v != nil){
+				fmt.Printf("value: %d\n", v.Val)
+				rst[i] = append(rst[i], v.Val)
+				if(v.Left != nil) {
+					NodeS1 = append(NodeS1,v.Left)
+				}
+				if (v.Right != nil) {
+					NodeS1 = append(NodeS1,v.Right)
+				}				
+			}
+			j++
+		}
+		if (len(NodeS1) == 0) {
+			break
+		}
+		NodeS = NodeS[:0]
+		fmt.Println(NodeS)
+		NodeS = append(NodeS, NodeS1...)
+		fmt.Println("append ", NodeS)
+			
+		NodeS1 = NodeS1[:0]
+		i++
+		j=0
+	}
+	
+	return rst
 }
