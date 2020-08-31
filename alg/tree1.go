@@ -21,10 +21,19 @@ func main() {
 	NodeS1 = append(NodeS1, new(TreeNode))
 	fmt.Printf("NodeS1: %+v\n", NodeS1[0])
 
-	a := 1
+
+	a := make([][]int, 0, 100)  
+	var c []int
+
+	for i:=0; i < 100; i++ {
+		c = []int{}
+		a = append(a, c)
+	}
+
+	b := 1
 	r = new(TreeNode)
 	r.Val = -1
-	insertNode(r, a)
+	insertNode(r, b)
 	insertNode(r, 2)
 	insertNode(r, 3)
 	insertNode(r, 4)
@@ -83,34 +92,31 @@ func insertNode(root *TreeNode, Val int) {
 func levelOrder(root *TreeNode) [][]int {
 	NodeS := make([]*TreeNode, 1, 100)
 	NodeS1 := make([]*TreeNode, 0, 100)
-	rst := make([][]int, 100, 100)
-	for i:= 0; i< 100; i++ {
-		rst[i] = make([]int, 100)
-	}
+	rst := make([][]int, 0, 100)	
+	var list []int
 
 	if (root.Val == -1) {
 		return rst
 	}
 
+
 	NodeS[0] = root
 	done := false
-	i := 0
-	j := 0
 	for (!done){
+		list = make([]int, 0, 100)
 		for _, v := range NodeS {
-
 			if (v != nil){
 				fmt.Printf("value: %d\n", v.Val)
-				rst[i] = append(rst[i], v.Val)
+				list = append(list, v.Val)
 				if(v.Left != nil) {
 					NodeS1 = append(NodeS1,v.Left)
 				}
 				if (v.Right != nil) {
 					NodeS1 = append(NodeS1,v.Right)
 				}				
-			}
-			j++
+			}			
 		}
+		rst = append(rst, list)
 		if (len(NodeS1) == 0) {
 			break
 		}
@@ -119,10 +125,14 @@ func levelOrder(root *TreeNode) [][]int {
 		NodeS = append(NodeS, NodeS1...)
 		fmt.Println("append ", NodeS)
 			
-		NodeS1 = NodeS1[:0]
-		i++
-		j=0
+		NodeS1 = NodeS1[:0]		
 	}
 	
 	return rst
+}
+
+
+// 层序遍历优化
+func levelOrder1(root *TreeNode) [][]int {
+	return nil
 }
