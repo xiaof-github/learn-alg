@@ -42,7 +42,7 @@ func main() {
 	insertNode(r, 4)
 	insertNode(r, 4)
 
-	rst := levelOrder(r)
+	rst := levelOrder1(r)
 	fmt.Printf("rst: %+v\n", rst)
 }
 // 以满二叉树方式插入节点
@@ -134,5 +134,39 @@ func levelOrder(root *TreeNode) [][]int {
 
 // 层序遍历优化
 func levelOrder1(root *TreeNode) [][]int {
-	return nil
+	var count int
+	var list []int
+	var node *TreeNode
+
+	if (root == nil) {
+		return nil
+	}
+
+	queue := make([]*TreeNode, 1, 100)
+	queue[0] = root
+
+	rst := make([][]int, 0, 100)
+
+	for len(queue) > 0 {
+		count = len(queue)
+		list = make([]int, 0, 100)
+		for count > 0 {
+			//队头的值加入列表
+			node = queue[0]
+			list = append(list, node.Val)
+			//从队头取子节点入队
+			if (node.Left != nil) {
+				queue = append(queue, node.Left)
+			}
+			if (queue[count-1].Right != nil){
+				queue = append(queue, node.Right)
+			}			
+			//队头出队
+			queue = queue[1:]
+			count--
+		}
+		rst = append(rst, list)		
+	}
+
+	return rst
 }
