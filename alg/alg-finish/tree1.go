@@ -158,7 +158,7 @@ func levelOrder1(root *TreeNode) [][]int {
 			if (node.Left != nil) {
 				queue = append(queue, node.Left)
 			}
-			if (queue[count-1].Right != nil){
+			if (node.Right != nil){
 				queue = append(queue, node.Right)
 			}			
 			//队头出队
