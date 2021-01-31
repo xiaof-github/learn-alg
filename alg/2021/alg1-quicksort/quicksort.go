@@ -7,40 +7,46 @@ func main(){
     log.Print(a)
 }
 
-func quicksort(array []int){
-    i, j:= 0, len(array)-1
-    left := -1
-    right := -1
-    swaped := 0
+func quicksort(array []int){    
+    left := 1
+    right := len(array)-1
+    swapedL := false
+    swapedR := false
+    // 轴心
     zhou := array[0]
-    for ;i<j;{
-        if (left == -1 && zhou < array[i]){
-            left = i
-        }
-        if (right == -1 && zhou > array[j]){
-            right = j
-        }        
-        if (left == -1){
-            i++
-        }
-        if (right == -1){
-            j--
-        }
-        if (left != -1 && right != -1){
-            swap(array, left, right)
-            left = -1
-            right = -1
-            swaped ++
-            j--
-            i++
-        }        
-    }
-    if (swaped == 0 && right == -1){
+    if(len(array) == 1){
         return
-    } else {
-        quicksort(array[0:j+1])
-        quicksort(array[j+2:len(array)])
     }
+    if (len(array) == 2) {
+        if (array[0] > array[1]){
+            swap(array,0,1)
+        }
+        return
+    }
+
+    for ;left<right;{
+        if (zhou < array[left]){            
+            swapedL = true
+        }else {
+            left++
+        }
+        if (zhou > array[right]){            
+            swapedR = true
+        } else {
+            right--
+        }
+        
+        if (swapedL && swapedR){
+            swap(array, left, right)
+            left++
+            right--
+            swapedL = false
+            swapedR = false
+        }        
+    }
+    swap(array, 0, right)
+    quicksort(array[0:right])
+    quicksort(array[right+1:len(array)])    
 }
 
 func swap(array []int, i int, j int){
