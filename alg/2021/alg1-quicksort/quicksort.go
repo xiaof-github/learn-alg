@@ -15,12 +15,14 @@ func quicksort(array []int){
     // 轴心
     zhou := array[0]
     if(len(array) == 1){
-        return
+        log.Println(array)
+        return        
     }
     if (len(array) == 2) {
         if (array[0] > array[1]){
             swap(array,0,1)
         }
+        log.Println(array)
         return
     }
 
@@ -45,6 +47,7 @@ func quicksort(array []int){
         }        
     }
     swap(array, 0, right)
+    log.Println(array)
     quicksort(array[0:right])
     quicksort(array[right+1:len(array)])    
 }
