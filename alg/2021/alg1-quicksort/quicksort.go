@@ -46,7 +46,9 @@ func quicksort(array []int){
             swapedR = false
         }        
     }
-    swap(array, 0, right)
+    if (zhou > array[right]){
+        swap(array, 0, right)
+    }    
     log.Println(array)
     quicksort(array[0:right])
     quicksort(array[right+1:len(array)])    
