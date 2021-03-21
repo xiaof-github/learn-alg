@@ -3,6 +3,7 @@ package main
 import "log"
 func main(){
     var a = []int{45,145,245,32,5,2,69,239,12,40}
+    log.Print(a)
     quicksort(a)
     log.Print(a)
 }
@@ -46,12 +47,14 @@ func quicksort(array []int){
             swapedR = false
         }        
     }
-    if (zhou > array[right]){
+    log.Println(left, right, array)
+    if (zhou > array[right]){        
         swap(array, 0, right)
     }    
     log.Println(array)
+    
     quicksort(array[0:right])
-    quicksort(array[right+1:len(array)])    
+    quicksort(array[right:len(array)])
 }
 
 func swap(array []int, i int, j int){
