@@ -48,6 +48,7 @@ func quicksort(array []int){
         }        
     }
     log.Println(left, right, array)
+    // 如果不交换，轴的大小顺序和数组中大小顺序不一致
     if (zhou > array[right]){        
         swap(array, 0, right)
     }    
