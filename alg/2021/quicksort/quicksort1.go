@@ -3,11 +3,14 @@ package main
 import "log"
 func main(){
     var a = []int{45,145,245,32,5,2,69,239,12,40}
-    log.Print(a)
+    log.Print("before: ", a)
     quicksort(a)
-    log.Print(a)
+    log.Print("after: ", a)
 }
-
+/**
+ * 思路：以轴心调整数组中的数的位置，将小于轴心的数移动到左边，大于轴心的数移动到右边。
+ * 轴心将数分成两堆，再继续按上述的方法调整两堆数的位置，直到不能调整，此时排序完成。
+ */
 func quicksort(array []int){    
     left := 1
     right := len(array)-1
