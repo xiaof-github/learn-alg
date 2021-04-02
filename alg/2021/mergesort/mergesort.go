@@ -5,18 +5,60 @@ import (
 	"math"
 	"time"
 ) 
+var sort2result []int
 func main(){
-    // var a = []int{45,145,245,32,5,2,69,239,12,40}
-    // log.Print("before: ", a)
+    var a = []int{45,145,245,32,5,2,69,239,12,40}
+	sort2result = make([]int, len(a))
+	// sort2result = make([]int, len(b))
+    log.Print("before: ", a)
 	start := time.Now().UnixNano()
-    mergesort(b)
+    mergesort2(a, 0, len(a) - 1)
+    // mergesort2(b, 0, len(b) - 1)
 	end := time.Now().UnixNano()
-    log.Print("after: ", b)
+    log.Print("after: ", a)
 	Milliseconds:= float64((end - start) / 1e6)
     log.Print("start_time, end_time, cost: ", start, end, Milliseconds)
 }
+
+/*
+ * 递归思路: 准备一个辅助数组。
+ *     1.将原数组分成两个序列，依次递归遍历两个序列，再对两个序列排序归并
+ *     2.归并时，将排序后的合并序列放入到辅助数组中，并以结果序列为起始再次排序归并
+ */
+func mergesort2(arr []int, left int, right int) {	
+	if (right == left){
+		return
+	}
+	if (right > left){
+		mergesort2(arr, left, (left+right)/2)
+		mergesort2(arr, (left+right)/2 + 1, right)
+	}
+	for i,j,k:=left,(left+right)/2 + 1,left;k<right + 1;k++{
+		if (i>(left+right)/2){
+			sort2result[k] = arr[j]
+			j++
+			continue
+		}
+		if (j>right){
+			sort2result[k] = arr[i]
+			i++
+			continue
+		}
+		
+		if (arr[i] > arr[j]){
+			sort2result[k] = arr[j]
+			j++
+		} else {
+			sort2result[k] = arr[i]
+			i++
+		}
+	}
+	copy(arr[left:right+1], sort2result[left:right+1])
+}
+
+
 /**
- * 思路: 逐层分割为两个元素的子序列，对子序列进行排序，对排序完的子序列从下到上进行合并
+ * 非递归思路: 逐层分割为两个元素的子序列，对子序列进行排序，对排序完的子序列从下到上进行合并
  * 切分子序列：确定每层的分割序列个数，直到子序列都为1个元素为止
  * 10个元素：[[5,5]],[[2,3],[2,3]],[[1,1],[1,2],[1,1],[1,2]],[[1,1],[1],[1,1],[1,1],[1],[1,1]]
  * 19个元素：[[9,10]],[[4,5],[5,5]],[[2,2],[2,3],[2,3],[2,3]],[[1,1],[1,1],[1,1],[1,2],[1,1],[1,2],[1,1],[1,2]],[[1,1],[1,1],[1,1],[1],[1,1],[1,1],[1],[1,1],[1,1],[1],[1,1]]
@@ -71,7 +113,7 @@ func divide(arr []int) map[int][][]int {
 	return subPos
 }
 
-func mergesort(arr []int) {
+func mergesort1(arr []int) {
 	layer := divide(arr)
 	lenM := len(layer)	
 	for i:=lenM-1;i>=0;i-- {
