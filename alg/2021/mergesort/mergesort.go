@@ -7,15 +7,15 @@ import (
 ) 
 var sort2result []int
 func main(){
-    var a = []int{45,145,245,32,5,2,69,239,12,40}
-	sort2result = make([]int, len(a))
-	// sort2result = make([]int, len(b))
-    log.Print("before: ", a)
+    // var a = []int{45,145,245,32,5,2,69,239,12,40}
+	// sort2result = make([]int, len(a))
+	sort2result = make([]int, len(b))
+    // log.Print("before: ", a)
 	start := time.Now().UnixNano()
-    mergesort2(a, 0, len(a) - 1)
-    // mergesort2(b, 0, len(b) - 1)
+    // mergesort2(a, 0, len(a) - 1)
+    mergesort2(b, 0, len(b) - 1)
 	end := time.Now().UnixNano()
-    log.Print("after: ", a)
+    log.Print("after: ", b)
 	Milliseconds:= float64((end - start) / 1e6)
     log.Print("start_time, end_time, cost: ", start, end, Milliseconds)
 }
