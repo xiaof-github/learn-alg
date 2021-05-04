@@ -1,4 +1,4 @@
-package main
+package tujie
 
 import "fmt"
 
