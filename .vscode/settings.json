@@ -43,5 +43,6 @@
     "go.addTags": {
     
     },
-    "go.gotoSymbol.includeImports": true
+    "go.gotoSymbol.includeImports": true,
+    "editor.detectIndentation": false
 }
