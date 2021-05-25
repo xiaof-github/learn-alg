@@ -29,6 +29,10 @@ func hasPathSum(root *TreeNode, target int) bool {
 func visitNode(node *TreeNode, localSum int, sum map[int]*TreeNode, target int) *TreeNode {
 	var ret *TreeNode
 
+    if node == nil {
+        return nil
+    }
+
 	if node.Left == nil && node.Right == nil {
 		// calc path value
 		pathValue := node.Val + localSum
@@ -59,4 +63,3 @@ func visitNode(node *TreeNode, localSum int, sum map[int]*TreeNode, target int) 
 
 	return nil
 }
-
