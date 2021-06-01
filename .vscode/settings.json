@@ -44,5 +44,6 @@
     
     },
     "go.gotoSymbol.includeImports": true,
-    "editor.detectIndentation": false
+    "editor.detectIndentation": false,
+    "editor.autoIndent": "keep"
 }
