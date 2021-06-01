@@ -10,11 +10,11 @@ func main(){
     var a = []int{45,145,245,32,5,2,69,239,12,40}
     log.Print("before: ", a)
     start := time.Now().UnixNano()
-    // heapsort(bA)
-    heapsort(a)
+    heapsort(bA)
+    // heapsort(a)
     end := time.Now().UnixNano()
-    // log.Print("after: ", bA)
-    log.Print("after: ", a)
+    log.Print("after: ", bA)
+    // log.Print("after: ", a)
     Milliseconds:= float64((end - start) / 1e6)
     log.Print("start_time, end_time, cost: ", start, end, Milliseconds)
 }
