@@ -3,6 +3,7 @@
     "timeline.excludeSources": [],
 
     "[go]": {
+        "editor.insertSpaces": true,    
         "editor.snippetSuggestions": "none",
         "editor.formatOnSave": false,
         "editor.codeActionsOnSave": {
@@ -45,5 +46,7 @@
     },
     "go.gotoSymbol.includeImports": true,
     "editor.detectIndentation": false,
-    "editor.autoIndent": "keep"
+    "editor.autoIndent": "keep",
+    "editor.formatOnSave": true,
+    "editor.formatOnType": true
 }
