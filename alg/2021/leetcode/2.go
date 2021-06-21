@@ -1,4 +1,8 @@
-package maint
+package main
+
+import (
+    "fmt"
+)
 
 type ListNode struct {
     Val int
@@ -6,31 +10,39 @@ type ListNode struct {
 }
 
 func main() {
-	var array = [8]int{1,2,3,4,5,6,7,8}
-	// var array = [8]int{6,7,8,1,2,3,4,5}
-	// 拆分为两个数组，使用二分查找方法
-
-	insert
-
-
+	var array1 = [8]int{1,2,3,4,5,6,7,8}
+	var array2 = [8]int{3,3,3,4,1,1,3,2}	
+    root1 := new(ListNode)
+    root1.Val = array1[0]
+    root2 := new(ListNode)
+    root2.Val = array2[0]
+    for i:=1;i<len(array1);i++ {
+        insert(array1[i], root1)
+        insert(array2[i], root2)
+    }
+    
+    rst := addTwoNumbers(root1,root2)
+    for cur := rst; cur!= nil ;cur=cur.Next {
+        fmt.Println(cur.Val)
+    }
 }
 
-fun insert(val int, root *ListNode) int {
-	var a int 
+func insert(val int, root *ListNode) {
 	
 	if(root == nil) {
-		return -1
+		return
 	}
 
 	p := root
 	node := new(ListNode)
 
-	for p;p != nil ; p = p.Next{
-		if (p.Next == nil)
-			break;
+	for ;p != nil ; p = p.Next{
+		if p.Next == nil {
+            p.Next = node
+            node.Val = val
+            break;
+        }			
 	}
-
-	p.Next = ListNode
 }
 
 func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
