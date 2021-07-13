@@ -1,3 +1,3 @@
-module github.com/m/1
+module test/m
 
-go 1.13
+go 1.16

@@ -48,5 +48,9 @@
     "editor.detectIndentation": false,
     "editor.autoIndent": "keep",
     "editor.formatOnSave": true,
-    "editor.formatOnType": true
+    "editor.formatOnType": true,
+
+    "go.delveConfig": {
+        "debugAdapter": "dlv-dap",
+    }
 }

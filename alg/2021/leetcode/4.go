@@ -8,11 +8,11 @@
 package main
 
 import (
-    "fmt"
+	"fmt"
 )
 
 func main() {
-    fmt.Println(findMedianSortedArrays([]int{1,23,3}, []int{4,5,6}))
+    fmt.Println(findMedianSortedArrays([]int{1,3}, []int{4,5,6}))
 }
 
 
@@ -27,34 +27,36 @@ func findMedianSortedArrays(nums1 []int, nums2 []int) float64 {
         k1 = (len1+len2)/2
         k2 = (len1+len2)/2        
     } else {
-        k1 = (len1 + len2)/2 - 1
-        k2 = (len1 + len2)/2
+        k1 = (len1 + len2)/2
+        k2 = (len1 + len2)/2+1
     }
-    var mid1,mid2,left1,left2,right1,right2 int
+    var mid1,mid2,left1,left2,right1,right2,num int
     right1 = len1-1
     right2 = len2-1    
-    for mid1,mid2 = (left1 + right1)/2,(left2 + right2)/2 ;(mid1+mid2) != k1; {                
-        if (nums1[mid1] < nums2[mid2]) {
-            mid1 = (left1 + right1)/2            
-            if (mid1+mid2)/2 > k1 {
-                right1 = mid1
-            } else {
-                left1 = mid1
-            }            
-            
-        }else {
-            mid2 = (left2 + right2)/2
-            if (mid1+mid2)/2 > k1 {
-                right2 = mid2
-            } else {
-                left2 = mid2
-            }            
+
+    for mid1,mid2 = (left1 + right1)/2,(left2 + right2)/2 ;num != k1; {          
+        
+        // 滑动中轴，使mid1+mid2逼近k1
+        if (mid1 + 1 + mid2 + 1) > k1 && nums1[mid1] < nums2[mid2] {
+            right2 = mid2
+            mid2 = (left2+right2)/2
+        } else if (mid1 + 1 + mid2 + 1) <= k1 && nums1[mid1] < nums2[mid2] {
+            left1 = mid1 + 1
+            mid1 = (left1+right1)/2
+        } else if (mid1 + 1 + mid2 + 1) > k1 && nums1[mid1] > nums2[mid2] {
+            right1 = mid1
+            mid1 = (left1+right1)/2
+        } else if (mid1 + 1 + mid2 + 1) <= k1 && nums1[mid1] > nums2[mid2] {
+            left2 = mid2 + 1
+            mid2 = (left2+right2)/2
         }
 
-        
-        
-    }
+        // 取当前的判断条件，num等于中位数
+        num = mid1+1+mid2+1
+        // fmt.Println("num:", num)
 
+    }
+    // fmt.Println("num:", num, "mid1：", mid1, "mid2：", mid2)
     if k1 == k2 {
         if nums1[mid1] > nums2[mid2] {
             return float64(nums1[mid1])
