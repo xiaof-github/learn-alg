@@ -5,7 +5,7 @@ import (
 )
 
 func main() {
-    fmt.Println(findMedianSortedArrays([]int{1,3}, []int{4,5,6}))
+    fmt.Println(findMedianSortedArrays([]int{2,7}, []int{4,5}))
 }
 
 /**
@@ -118,16 +118,16 @@ func findMedianSortedArrays(nums1 []int, nums2 []int) float64 {
         if nums1[pos1] > nums2[pos2] {
             a = nums1[pos1]
             if pos1-1 >= 0 && nums1[pos1-1] > nums2[pos2] {
-                return float64(a) + float64(nums1[pos1-1])
+                return (float64(a) + float64(nums1[pos1-1])) /2
             } else {
-                return float64(a) + float64(nums1[pos2])
+                return (float64(a) + float64(nums1[pos2])) /2
             }
         }
         a = nums2[pos2]
         if pos2-1 >= 0 && nums2[pos2-1] > nums1[pos1] {
-            return float64(a) + float64(nums2[pos2-1])
+            return (float64(a) + float64(nums2[pos2-1]))/2
         } else {
-            return float64(a) + float64(nums1[pos1])
+            return (float64(a) + float64(nums1[pos1]))/2
         }        
     }
     
