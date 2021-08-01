@@ -60,6 +60,12 @@ func findMedianSortedArrays(nums1 []int, nums2 []int) float64 {
                 pos1 = plen - mid2 -2
                 break
             }
+            mid2 = (left2 + right2) /2
+            mid1 = mid1 - (mid2-pos2)
+            if mid1 < 0 {
+                mid1 = 0
+            }
+            right1 = mid1*2 - left1
         } else {
             if mid1 + mid2 + 2 == plen {
                 pos1 = mid1
@@ -79,14 +85,12 @@ func findMedianSortedArrays(nums1 []int, nums2 []int) float64 {
                     break
                 }
             }
+            // 重新设置left1,right1,left2,right2,更新num值，进入下一轮计算,mid1<len1-1,mid2<len2-1
+            mid1 = (left1 + right1)/2
+            mid2 = (left2 + right2)/2
         }
-        // 重新设置left1,right1,left2,right2,更新num值，进入下一轮计算,mid1<len1-1,mid2<len2-1
-        mid1 = (left1 + right1)/2
-        mid2 = (left2 + right2)/2
-
         
-        
-        num = mid1+1+mid2+1
+        num = pos1+1+pos2+1
     }
     fmt.Println("num:", num, "mid1：", mid1, "mid2：", mid2, "pos1：", pos1, "pos2：", pos2)
     if pos1 == -1 {
@@ -103,6 +107,28 @@ func findMedianSortedArrays(nums1 []int, nums2 []int) float64 {
             return ( float64(nums1[pos1]) + float64(nums1[pos1-1]) )/2
         }
     }
-
+    if (len1 + len2) % 2 != 0 {
+        if nums1[pos1] > nums2[pos2] {
+            return float64(nums1[pos1])
+        } else {
+            return float64(nums2[pos2])
+        }        
+    } else {
+        var a int
+        if nums1[pos1] > nums2[pos2] {
+            a = nums1[pos1]
+            if pos1-1 >= 0 && nums1[pos1-1] > nums2[pos2] {
+                return float64(a) + float64(nums1[pos1-1])
+            } else {
+                return float64(a) + float64(nums1[pos2])
+            }
+        }
+        a = nums2[pos2]
+        if pos2-1 >= 0 && nums2[pos2-1] > nums1[pos1] {
+            return float64(a) + float64(nums2[pos2-1])
+        } else {
+            return float64(a) + float64(nums1[pos1])
+        }        
+    }
     
 }
